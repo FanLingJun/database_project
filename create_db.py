@@ -1,9 +1,8 @@
 import sqlite3
-import tkinter as tk
 
 conn = sqlite3.connect('student2.db')#若文件不存在，会自动在当前目录创建
 cursor = conn.cursor()#创建一个cursor
-'''
+
 # 执行一条SQL语句，创建s表:
 cursor.execute('create table s (sno char(4) primary key, sname char(8),'
                'sex char(2), age char(2), sdept char(10), logn char(20), pswd char(20))')
@@ -35,55 +34,3 @@ cursor.execute('insert into sc (sno, cno, grade) values (\'1004\', \'0831\', 97)
 cursor.close()
 conn.commit()
 conn.close()
-'''
-#学生选课窗口
-def w_select_course():
-    w2=tk.Tk()
-    w2.title('学生选课')
-    w2.geometry('600x600')
-    tk.Label(w2, text='学生详细信息:', font=('黑体', 14)).place(x=10, y=20)
-
-    w2.mainloop()
-
-#系统登录
-w1=tk.Tk()
-w1.title('系统登录')
-w1.geometry('400x300')
-
-'''
-#系统登录界面带图片
-canvas = tk.Canvas(window, width=400, height=135, bg='green')
-image_file = tk.PhotoImage(file='pic.gif')
-image = canvas.create_image(200, 0, anchor='n', image=image_file)
-canvas.pack(side='top')
-tk.Label(window, text='Wellcome', font=('Arial', 16)).pack()
-'''
-#用户名/口令提示
-tk.Label(w1, text='用户名:', font=('黑体', 14)).place(x=10, y=100)
-tk.Label(w1, text='口令:', font=('黑体', 14)).place(x=10, y=140)
-# 用户名输入框
-var_usr_name = tk.StringVar()
-var_usr_name.set('')
-entry_usr_name = tk.Entry(w1, textvariable=var_usr_name, font=('Arial', 14))
-entry_usr_name.place(x=120,y=100)
-# 口令输入框
-var_usr_pwd = tk.StringVar()
-entry_usr_pwd = tk.Entry(w1, textvariable=var_usr_pwd, font=('Arial', 14), show='*')
-entry_usr_pwd.place(x=120,y=140)
-
-#用户登录
-def usr_login():
-    usr_name = var_usr_name.get()
-    usr_pwd = var_usr_pwd.get()
-    cursor.execute('select pswd from s where logn=?', (usr_name,))
-    values = cursor.fetchall()#该值类型为元组列表
-    if usr_pwd in values[0]:
-        w_select_course()
-
-#登录/退出按钮
-btn_login = tk.Button(w1, text='登录', command=usr_login)
-btn_login.place(x=120, y=240)
-btn_sign_up = tk.Button(w1, text='退出')
-btn_sign_up.place(x=200, y=240)
-
-w1.mainloop()
