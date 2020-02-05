@@ -31,6 +31,11 @@ cursor.execute('insert into sc values (\'1003\', \'0832\', 76)')
 cursor.execute('insert into sc values (\'1003\', \'0833\', 65)')
 cursor.execute('insert into sc (sno, cno, grade) values (\'1004\', \'0831\', 97)')
 
+
+#创建nsc表(未选课表)
+cursor.execute('create table nsc(sno char(4) references s(sno),'
+               'cno char(4) references c(cno), tag integer, primary key(sno,cno))')
+
 cursor.close()
 conn.commit()
 conn.close()

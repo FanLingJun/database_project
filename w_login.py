@@ -65,7 +65,7 @@ def usr_login():
             messagebox.showwarning('警告！' ,'密码名错！')
             var_usr_pwd.set('')
         else:
-            stu.student_select_course()
+            stu.student_select_course(usr_name)
             #！！！系统界面消失！！！
 
 #登录/退出按钮
