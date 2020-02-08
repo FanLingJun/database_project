@@ -1,5 +1,7 @@
 import sqlite3
+import tkinter as tk
 
+<<<<<<< HEAD
 conn = sqlite3.connect('student2.db')#若文件不存在，会自动在当前目录创建
 cursor = conn.cursor()#创建一个cursor
 
@@ -39,3 +41,5 @@ cursor.execute('create table nsc(sno char(4) references s(sno),'
 cursor.close()
 conn.commit()
 conn.close()
+=======
+>>>>>>> 0b76f54de0a3b230f60f8fdcc89db26e926c2f7f
