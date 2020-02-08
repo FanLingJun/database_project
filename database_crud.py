@@ -3,6 +3,7 @@ import sqlite3
 def connect():
     conn = sqlite3.connect("student2.db")
     cur_obj = conn.cursor()
+    cur_obj.close()
     conn.commit()
     conn.close()
 
@@ -25,6 +26,7 @@ def insert(table_name, insert_arr):
         # (sno, cno, tag)
         cur_obj.execute("INSERT INTO nsc "
                         "VALUES (?, ?, ?)", (insert_arr[0], insert_arr[1], insert_arr[2]))
+    cur_obj.close()
     conn.commit()
     conn.close()
 
@@ -41,6 +43,7 @@ def get_all(table_name):
     elif table_name == 'nsc':
         cur_obj.execute("SELECT * FROM nsc")
     table = cur_obj.fetchall()
+    cur_obj.close()
     conn.close()
     return table
 
@@ -86,6 +89,7 @@ def update(table_name,update_arr):
                         "tag = ? "
                         "WHERE sno = ?",
                         (update_arr[0], update_arr[1], update_arr[2],update_arr[0]))
+    cur_obj.close()
     conn.commit()
     conn.close()
 
@@ -104,6 +108,7 @@ def delete(table_name,num):
     elif table_name == 'nsc':
         cur_obj.execute("DELETE FROM nsc "
                         "WHERE sno = ?", (num,))
+    cur_obj.close()
     conn.commit()
     conn.close()
 
@@ -135,5 +140,6 @@ def search(table_name,arr1="",arr2="",arr3="",arr4="",arr5="",arr6=""):
                         "WHERE sno = ? OR cno = ? OR tag = ?",
                         (arr1, arr2, arr3))
     search_info = cur_obj.fetchall()
+    cur_obj.close()
     conn.close()
     return search_info
