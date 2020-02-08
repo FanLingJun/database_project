@@ -62,7 +62,7 @@ def update(table_name,update_arr):
                         "pswd = ?,"
                         "count = ?"
                         "WHERE sno = ?",
-                        (update_arr[0], update_arr[1], update_arr[2], update_arr[3], update_arr[4], update_arr[5], update_arr[6],0,update_arr[0]))
+                        (update_arr[0], update_arr[1], update_arr[2], update_arr[3], update_arr[4], update_arr[5], update_arr[6],update_arr[7],update_arr[0]))
     elif table_name == 'c':
         # (cno, cname, credit, cdept,tname)
         cur_obj.execute("UPDATE c "
@@ -87,8 +87,8 @@ def update(table_name,update_arr):
                         "SET sno = ?, "
                         "cno = ?, "
                         "tag = ? "
-                        "WHERE sno = ?",
-                        (update_arr[0], update_arr[1], update_arr[2],update_arr[0]))
+                        "WHERE cno = ?",
+                        (update_arr[0], update_arr[1], update_arr[2],update_arr[1]))
     cur_obj.close()
     conn.commit()
     conn.close()

@@ -24,24 +24,26 @@
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
     <loaded-nodes>
-      <connection connection-id="eca57e4f-ccd8-44b3-aa15-173823b0ca00">
-        <schema name="main" object-types="column, dataset trigger, constraint, table, view, index" />
+      <connection connection-id="47159086-5ada-49c6-bbc7-1750459c028b">
+        <schema name="main" object-types="table, dataset trigger, constraint, column, index" />
       </connection>
     </loaded-nodes>
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="eca57e4f-ccd8-44b3-aa15-173823b0ca00">
+    <connection id="47159086-5ada-49c6-bbc7-1750459c028b">
       <console name="student2" type="STANDARD" schema="main" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="47159086-5ada-49c6-bbc7-1750459c028b" object-ref="schemas/main/tables/s" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
-    <connection id="eca57e4f-ccd8-44b3-aa15-173823b0ca00" />
+    <connection id="47159086-5ada-49c6-bbc7-1750459c028b" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
-    <filter-actions connection-id="eca57e4f-ccd8-44b3-aa15-173823b0ca00" dataset="main.s" active-filter-id="EMPTY_FILTER" />
+    <filter-actions connection-id="47159086-5ada-49c6-bbc7-1750459c028b" dataset="main.s" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
     <last-used-providers />
@@ -66,7 +68,7 @@
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="eca57e4f-ccd8-44b3-aa15-173823b0ca00" active="true">
+      <connection id="47159086-5ada-49c6-bbc7-1750459c028b" active="true">
         <database>
           <name value="student2" />
           <description value="" />
@@ -81,7 +83,7 @@
           <port value="1234" />
           <database value="database" />
           <files>
-            <file path="E:\database_project\student2.db" schema="main" />
+            <file path="E:\db_project\student2.db" schema="main" />
           </files>
           <type value="NONE" />
           <user value="" />

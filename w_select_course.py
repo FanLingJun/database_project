@@ -2,89 +2,113 @@ import sqlite3
 import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import Spinbox
-
+import database_crud as op
+'''
 conn = sqlite3.connect('student2.db')#若文件不存在，会自动在当前目录创建
 cursor = conn.cursor()#创建一个cursor
+'''
 
 #学生详细信息
 def student_info(usr_name):
+    temp = op.search(table_name='s', arr6=usr_name)
+    temp = temp[0]
+    '''
+    temp = [x for x in temp]
     cursor.execute('select * from s where logn=?', (usr_name,))
     stu_info = cursor.fetchall() #元组列表，此处正常情况下列表中仅有一个元素
     temp = stu_info[0]  #取第一个元组，此处即将元组列表数据类型转换为元组类型
+    '''
     print('学生详细信息：',temp)
     return temp
 
 # 根据用户名获取学生学号
 def get_sno(usr_name):
+    temp = op.search(table_name='s', arr6=usr_name)
+    temp = temp[0]
+    sno = temp[0]
+    print('sno:',sno)
+    '''
     cursor.execute('select sno from s where logn=?', (usr_name,))
     sno = cursor.fetchall()
     temp = sno[0]  # 转换数据类型作用，数据类型已转换为元组
     sno = temp[0]  # 数据类型转换为str
+    '''
     return sno
 
 #返回已修课程的课程号，课程名，成绩
 def selected_course(usr_name):
     sno=get_sno(usr_name)
+    temp = op.search(table_name='sc', arr1=sno)
+    '''
+    temp = temp[0]
+    temp = [x for x in temp]
     cursor.execute('select cno,grade from sc where sno=?', (sno,))  # 从学习表中根据学号获取已修课程号及成绩
     values = cursor.fetchall()
-    cno_list = [x[0] for x in values]  # 已修课程的课程号列表
-    grade_list = [x[1] for x in values]  # 已修课程的成绩列表
+    '''
+    cno_list = [x[1] for x in temp]  # 已修课程的课程号列表
+    grade_list = [x[2] for x in temp]  # 已修课程的成绩列表
     cname_list = []
     for i in range(len(cno_list)):
+        temp = op.search(table_name='c', arr1=cno_list[i])
+        '''
         cursor.execute('select cname from c where cno=?', (cno_list[i],))  # 由课程号获取课程名
         cname = cursor.fetchall()
         temp = cname[0]  # 数据类型转换到str
-        cname_list += [temp[0]]  # 已修课程的课程名列表
+        '''
+        temp=temp[0]
+        cname_list += [temp[1]]  # 已修课程的课程名列表
     print('已修课程成绩:',cno_list,cname_list,grade_list)
     return cno_list,cname_list,grade_list
 
 #将可选课程插入表nsc中（重复插入数据会报错！每个学生未选课情况只需插入一次 有点小问题）
 #全部课程除去已修课程，即为可选课程
 def insert_table_nsc(usr_name):
-    flag=0
     sno = get_sno(usr_name)
     values = selected_course(usr_name)
     selected_cno_list = values[0]  # 已修课程号
 
+    temp = op.get_all('c')
+    cno_list = [x[0] for x in temp]  # 全部课程号
+    print('cno:',cno_list)
+    '''
     cursor.execute('select cno from c ')
     values = cursor.fetchall()
     cno_list = [x[0] for x in values]  # 全部课程号
+    '''
 
     for i in range(len(cno_list)):
-        cursor.execute('select cno from nsc where sno=?',(sno,))
-        values = cursor.fetchall()
-        print(i,':',values)
-        if values==[]:
-            if cno_list[i] not in selected_cno_list:
-                flag==1
-                cursor.execute('insert into nsc values (\'{}\', \'{}\', 0)'.format(sno, cno_list[i]))
-        else:
-            temp=values[0]
-            print(temp)
-            if cno_list[i] not in selected_cno_list and cno_list[i] not in temp:
-                flag=1
-                cursor.execute('insert into nsc values (\'{}\', \'{}\', 0)'.format(sno, cno_list[i]))
-    if flag==1:
-        conn.commit()
+        if cno_list[i] not in selected_cno_list:
+            temp_list=[sno, cno_list[i], 0]
+            op.insert('nsc', temp_list)
 
 #根据课程号获取课程详细信息
 def get_course_info(cno):
+    temp=op.search('c',arr1=cno)
+    return temp[0]
+    '''
     cursor.execute('select * from c where cno=?',(cno,))
     values=cursor.fetchall()
+    '''
     return values[0]
 
 #可选课程（从nsc表中选取可选课程）
 def course_available(usr_name):
     sno = get_sno(usr_name)
+    temp=op.search('s',arr1=sno)
+    '''
     cursor.execute('select count from s where sno=?', (sno,))
     temp=cursor.fetchall()
+    '''
     temp=temp[0]
-    temp=temp[0]
+    temp=temp[7]
     if temp==1:
         insert_table_nsc(usr_name)
+    values=op.search('nsc',arr1=sno,arr3=0)
+    '''
     cursor.execute('select cno from nsc where sno=? and tag=? ',(sno,0,))
     values=cursor.fetchall()
-    not_select_cno_list = [x[0] for x in values]
+    '''
+    not_select_cno_list = [x[1] for x in values]
     not_select_course_info=[]
     for i in range(len(not_select_cno_list)):
         temp=get_course_info(not_select_cno_list[i])
@@ -95,15 +119,19 @@ def course_available(usr_name):
 #已选课程（从nsc表中选取已选课程）
 def choosed_course(usr_name):
     sno = get_sno(usr_name)
+    values=op.search('nsc',arr1=sno,arr3=1)
+    '''
     cursor.execute('select cno from nsc where sno=? and tag=? ', (sno, 1,))
     values = cursor.fetchall()
-    choosed_cno_list = [x[0] for x in values]
+    '''
+    choosed_cno_list = [x[1] for x in values]
     choosed_course_info = []
     for i in range(len(choosed_cno_list)):
         temp = get_course_info(choosed_cno_list[i])
         choosed_course_info += [temp]
     print('已选课程：',choosed_course_info)
     return choosed_course_info
+
 
 #选课系统主窗口
 def student_select_course(usr_name):
@@ -143,14 +171,28 @@ def student_select_course(usr_name):
     # 选课按钮(课号输入框置空报错)
     def choose_course():
         choose_cno = course_number.get()
+        temp=op.search('nsc',arr2=choose_cno)
+        temp=temp[0]
+        temp_list=[x for x in temp]
+        temp_list[2]=1
+        op.update('nsc',temp_list)
+        '''
         cursor.execute('update nsc set tag=? where cno=?', (1, choose_cno,))
         conn.commit()
+        '''
 
     # 退课按钮
     def drop_course():
         choose_cno = course_number.get()
+        temp = op.search('nsc', arr2=choose_cno)
+        temp = temp[0]
+        temp_list = [x for x in temp]
+        temp_list[2] = 0
+        op.update('nsc', temp_list)
+        '''
         cursor.execute('update nsc set tag=? where cno=?', (0, choose_cno,))
         conn.commit()
+        '''
 
     btn_choose = tk.Button(w2, text='选课',width=7, command=choose_course)
     btn_choose.place(x=700, y=80)
@@ -188,8 +230,6 @@ def student_select_course(usr_name):
         t4.insert('end', temp[0] + '  ' + temp[1] + '  ' + str(temp[2]) + '  ' + temp[3] + '  ' + temp[4] + '\n')
 
     w2.mainloop()
-
-#student_select_course('s3')
 
 #说明
 #基本功能暂时完成
