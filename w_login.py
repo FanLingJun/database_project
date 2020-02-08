@@ -1,13 +1,13 @@
 import sqlite3
 import tkinter as tk
 from tkinter import messagebox
-import w_select_course as stu
-import time
+import database_crud as op
 
 #！！！整体需改成函数，在主函数中调用！！！
-
+'''
 conn = sqlite3.connect('student2.db')#若文件不存在，会自动在当前目录创建
 cursor = conn.cursor()#创建一个cursor
+'''
 
 #系统登录
 w1=tk.Tk()
@@ -49,31 +49,29 @@ def usr_login():
     usr_name=usr_name.lower()
     usr_pwd=usr_pwd.lower()
     if usr_name=='system' and usr_pwd=='system':
-        stu.student_select_course()  #！！！要改成转到成绩管理窗口！！！
+        #stu.student_select_course()  #！！！要改成转到成绩管理窗口！！！
+        print('teacher!')
     else:
-        cursor.execute('select logn from s')
-        logns=cursor.fetchall()  # 该值类型为元组列表
-        logn_list=[x[0] for x in logns]  #取列表中各元组的第一个元素组成新的列表
-        cursor.execute('select pswd from s where logn=?', (usr_name,))
-        pswd = cursor.fetchall()
+        temp=op.get_all('s')
+        logn_list=[x[5] for x in temp]
+        temp=op.search(table_name='s',arr6=usr_name)
+        temp=temp[0]
+        temp=[x for x in temp]
+        print(type(temp))
+        pswd=temp[6]
         print(logn_list)
         print(pswd)
         if usr_name not in logn_list:
             messagebox.showwarning('警告！' ,'用户名错！')
             var_usr_pwd.set('')
             var_usr_name.set('')
-        elif usr_pwd not in pswd[0]:
+        elif usr_pwd != pswd:
             messagebox.showwarning('警告！' ,'密码名错！')
             var_usr_pwd.set('')
         else:
-            cursor.execute('select count from s where logn=?', (usr_name,))
-            temp = cursor.fetchall()
-            temp=temp[0]
-            temp=temp[0]
-            cursor.execute('update s set count=? where logn=?', (temp+1, usr_name,))
-            time.sleep(10)
-            conn.commit()
-            stu.student_select_course(usr_name)
+            temp[7]=temp[7]+1
+            op.update('s', temp)
+            #stu.student_select_course(usr_name)
             #！！！系统界面消失！！！
 
 #登录/退出按钮

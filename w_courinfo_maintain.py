@@ -3,9 +3,10 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import scrolledtext
 from tkinter import ttk
+import database_crud
 
-conn = sqlite3.connect('student2.db')#若文件不存在，会自动在当前目录创建
-cursor = conn.cursor()#创建一个cursor
+# conn = sqlite3.connect('student2.db')#若文件不存在，会自动在当前目录创建
+# cursor = conn.cursor()#创建一个cursor
 
 def course_info_maintain():
     w = tk.Tk()
@@ -38,7 +39,8 @@ def course_info_maintain():
     for i in range(20):
         tree.insert('', i, values=[str(i)] * 7)
 
-    course_info = course_info_get()
+    # course_info = course_info_get()
+    course_info = database_crud.get_all('s')
     i = 21
     for course in course_info:
         tree.insert('', i, values=(course[0],course[1],course[2],course[3],course[4]))
@@ -88,5 +90,34 @@ def save_info():
 def delete_info():
     return
 
+def test_insert_to_database():
+
+    insert_to_s = ['1044', '陈序原', '男', '20', '通信与信息工程', 's6', 's6']
+    database_crud.insert('s',insert_to_s)
+
+    insert_to_c = ['3097', '概率论与数理统计', 4, '数学', '毛雪峰']
+    database_crud.insert('c', insert_to_c)
+
+    insert_to_sc = ['1044', '3097', 85]
+    database_crud.insert('sc', insert_to_sc)
+
+def test_updata_database():
+
+    insert_to_s = ['1044', '陈序原', '男', '21', '智能科学与技术', 's6', 's6']
+    database_crud.update('s',insert_to_s)
+
+    insert_to_c = ['3097', '概率论与数理统计', 4, '数学', '何幼桦']
+    database_crud.update('c', insert_to_c)
+
+    insert_to_sc = ['1044', '3097', 99]
+    database_crud.update('sc', insert_to_sc)
+
+def test_search_database():
+    print(database_crud.search('s','1044'))
+    print(database_crud.search('s','','','男'))
+
 if __name__ == '__main__':
-    course_info_maintain()
+    test_search_database()
+    # test_updata_database()
+    # test_insert_to_database()
+    # course_info_maintain()
