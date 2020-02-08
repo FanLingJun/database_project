@@ -2,6 +2,7 @@ import sqlite3
 import tkinter as tk
 from tkinter import messagebox
 import w_select_course as stu
+import time
 
 #！！！整体需改成函数，在主函数中调用！！！
 
@@ -70,6 +71,7 @@ def usr_login():
             temp=temp[0]
             temp=temp[0]
             cursor.execute('update s set count=? where logn=?', (temp+1, usr_name,))
+            time.sleep(10)
             conn.commit()
             stu.student_select_course(usr_name)
             #！！！系统界面消失！！！

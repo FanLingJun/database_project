@@ -1,8 +1,8 @@
+import sqlite3
 import tkinter as tk
 from tkinter import scrolledtext
 from tkinter import Spinbox
 
-<<<<<<< HEAD
 conn = sqlite3.connect('student2.db')#若文件不存在，会自动在当前目录创建
 cursor = conn.cursor()#创建一个cursor
 
@@ -197,5 +197,4 @@ def student_select_course(usr_name):
 #1.需要新建一张表保存可选课程，并带有标记项，来标记是否已选(实现了）
 #2.insert不报错，但是数据插不进   database is locked???(暂时没问题了）
 
-=======
->>>>>>> 0b76f54de0a3b230f60f8fdcc89db26e926c2f7f
+
