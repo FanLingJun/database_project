@@ -75,8 +75,13 @@ def get_course_info(cno):
 
 #可选课程（从nsc表中选取可选课程）
 def course_available(usr_name):
-    insert_table_nsc(usr_name)
-    sno=get_sno(usr_name)
+    sno = get_sno(usr_name)
+    cursor.execute('select count from s where sno=?', (sno,))
+    temp=cursor.fetchall()
+    temp=temp[0]
+    temp=temp[0]
+    if temp==1:
+        insert_table_nsc(usr_name)
     cursor.execute('select cno from nsc where sno=? and tag=? ',(sno,0,))
     values=cursor.fetchall()
     not_select_cno_list = [x[0] for x in values]
