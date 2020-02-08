@@ -65,6 +65,12 @@ def usr_login():
             messagebox.showwarning('警告！' ,'密码名错！')
             var_usr_pwd.set('')
         else:
+            cursor.execute('select count from s where logn=?', (usr_name,))
+            temp = cursor.fetchall()
+            temp=temp[0]
+            temp=temp[0]
+            cursor.execute('update s set count=? where logn=?', (temp+1, usr_name,))
+            conn.commit()
             stu.student_select_course(usr_name)
             #！！！系统界面消失！！！
 
@@ -73,6 +79,7 @@ btn_login = tk.Button(w1, text='登录', font=('黑体', 14), command=usr_login,
 btn_login.place(x=100, y=200)
 btn_sign_up = tk.Button(w1, text='退出', font=('黑体', 14) ,width=7)
 btn_sign_up.place(x=200, y=200)
+
 w1.mainloop()
 
 ###待美化界面

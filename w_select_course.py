@@ -11,6 +11,7 @@ def student_info(usr_name):
     cursor.execute('select * from s where logn=?', (usr_name,))
     stu_info = cursor.fetchall() #元组列表，此处正常情况下列表中仅有一个元素
     temp = stu_info[0]  #取第一个元组，此处即将元组列表数据类型转换为元组类型
+    print('学生详细信息：',temp)
     return temp
 
 # 根据用户名获取学生学号
@@ -34,11 +35,13 @@ def selected_course(usr_name):
         cname = cursor.fetchall()
         temp = cname[0]  # 数据类型转换到str
         cname_list += [temp[0]]  # 已修课程的课程名列表
+    print('已修课程成绩:',cno_list,cname_list,grade_list)
     return cno_list,cname_list,grade_list
 
 #将可选课程插入表nsc中（重复插入数据会报错！每个学生未选课情况只需插入一次 有点小问题）
 #全部课程除去已修课程，即为可选课程
 def insert_table_nsc(usr_name):
+    flag=0
     sno = get_sno(usr_name)
     values = selected_course(usr_name)
     selected_cno_list = values[0]  # 已修课程号
@@ -48,9 +51,21 @@ def insert_table_nsc(usr_name):
     cno_list = [x[0] for x in values]  # 全部课程号
 
     for i in range(len(cno_list)):
-        if cno_list[i] not in selected_cno_list:
-            cursor.execute('insert into nsc values (\'{}\', \'{}\', 0)'.format(sno, cno_list[i]))
-            conn.commit()
+        cursor.execute('select cno from nsc where sno=?',(sno,))
+        values = cursor.fetchall()
+        print(i,':',values)
+        if values==[]:
+            if cno_list[i] not in selected_cno_list:
+                flag==1
+                cursor.execute('insert into nsc values (\'{}\', \'{}\', 0)'.format(sno, cno_list[i]))
+        else:
+            temp=values[0]
+            print(temp)
+            if cno_list[i] not in selected_cno_list and cno_list[i] not in temp:
+                flag=1
+                cursor.execute('insert into nsc values (\'{}\', \'{}\', 0)'.format(sno, cno_list[i]))
+    if flag==1:
+        conn.commit()
 
 #根据课程号获取课程详细信息
 def get_course_info(cno):
@@ -60,6 +75,7 @@ def get_course_info(cno):
 
 #可选课程（从nsc表中选取可选课程）
 def course_available(usr_name):
+    insert_table_nsc(usr_name)
     sno=get_sno(usr_name)
     cursor.execute('select cno from nsc where sno=? and tag=? ',(sno,0,))
     values=cursor.fetchall()
@@ -68,6 +84,7 @@ def course_available(usr_name):
     for i in range(len(not_select_cno_list)):
         temp=get_course_info(not_select_cno_list[i])
         not_select_course_info+=[temp]
+    print('可选课程：',not_select_course_info)
     return not_select_course_info
 
 #已选课程（从nsc表中选取已选课程）
@@ -80,6 +97,7 @@ def choosed_course(usr_name):
     for i in range(len(choosed_cno_list)):
         temp = get_course_info(choosed_cno_list[i])
         choosed_course_info += [temp]
+    print('已选课程：',choosed_course_info)
     return choosed_course_info
 
 #选课系统主窗口
@@ -166,10 +184,7 @@ def student_select_course(usr_name):
 
     w2.mainloop()
 
-student_select_course('s3')
-
-cursor.close()
-conn.close()
+#student_select_course('s3')
 
 #说明
 #基本功能暂时完成

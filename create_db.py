@@ -5,11 +5,11 @@ cursor = conn.cursor()#创建一个cursor
 
 # 执行一条SQL语句，创建s表:
 cursor.execute('create table s (sno char(4) primary key, sname char(8),'
-               'sex char(2), age char(2), sdept char(10), logn char(20), pswd char(20))')
-cursor.execute('insert into s values (\'1001\', \'张三\', \'男\', \'19\', \'计算机\', \'s1\', \'s1\')')
-cursor.execute('insert into s values (\'1002\', \'李四\', \'男\', \'21\', \'通信\', \'s2\', \'s2\')')
-cursor.execute('insert into s values (\'1003\', \'王五\', \'女\', \'18\', \'新闻\', \'s3\', \'s3\')')
-cursor.execute('insert into s values (\'1004\', \'赵六\', \'男\', \'22\', \'计算机\', \'s4\', \'s4\')')
+               'sex char(2), age char(2), sdept char(10), logn char(20), pswd char(20), count integer default 0)')
+cursor.execute('insert into s (sno, sname, sex, age, sdept, logn, pswd) values (\'1001\', \'张三\', \'男\', \'19\', \'计算机\', \'s1\', \'s1\')')
+cursor.execute('insert into s (sno, sname, sex, age, sdept, logn, pswd) values (\'1002\', \'李四\', \'男\', \'21\', \'通信\', \'s2\', \'s2\')')
+cursor.execute('insert into s (sno, sname, sex, age, sdept, logn, pswd) values (\'1003\', \'王五\', \'女\', \'18\', \'新闻\', \'s3\', \'s3\')')
+cursor.execute('insert into s (sno, sname, sex, age, sdept, logn, pswd)values (\'1004\', \'赵六\', \'男\', \'22\', \'计算机\', \'s4\', \'s4\')')
 
 #创建c表
 cursor.execute('create table c (cno char(4) primary key, cname char(20),'
