@@ -79,8 +79,8 @@ def update(table_name,update_arr):
                         "SET sno = ?, "
                         "cno = ?, "
                         "grade = ? "
-                        "WHERE sno = ?",
-                        (update_arr[0], update_arr[1], update_arr[2],update_arr[0]))
+                        "WHERE sno = ?AND cno = ?",
+                        (update_arr[0], update_arr[1], update_arr[2],update_arr[0],update_arr[1]))
     elif table_name == 'nsc':
         # (sno, cno, tag)
         cur_obj.execute("UPDATE nsc "
