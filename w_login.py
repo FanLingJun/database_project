@@ -2,7 +2,8 @@ import sqlite3
 import tkinter as tk
 from tkinter import messagebox
 import database_crud as op
-import w_select_course as stu
+import test as stu
+import os
 
 #！！！整体需改成函数，在主函数中调用！！！
 '''
@@ -70,8 +71,6 @@ def usr_login():
             messagebox.showwarning('警告！' ,'密码名错！')
             var_usr_pwd.set('')
         else:
-            temp[7] = temp[7]+1
-            op.update('s', temp)
             stu.student_select_course(usr_name)
             #！！！系统界面消失！！！
 

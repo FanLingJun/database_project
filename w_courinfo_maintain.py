@@ -194,5 +194,5 @@ def test_search_database():
 if __name__ == '__main__':
     # test_search_database()
     # test_updata_database()
-    # test_insert_to_database()
+    #test_insert_to_database()
     course_info_maintain()

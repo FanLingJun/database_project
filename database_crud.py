@@ -87,8 +87,8 @@ def update(table_name,update_arr):
                         "SET sno = ?, "
                         "cno = ?, "
                         "tag = ? "
-                        "WHERE cno = ?",
-                        (update_arr[0], update_arr[1], update_arr[2],update_arr[1]))
+                        "WHERE sno =? AND cno = ?",
+                        (update_arr[0], update_arr[1], update_arr[2], update_arr[0], update_arr[1]))
     cur_obj.close()
     conn.commit()
     conn.close()
@@ -143,3 +143,16 @@ def search(table_name,arr1="",arr2="",arr3="",arr4="",arr5="",arr6=""):
     cur_obj.close()
     conn.close()
     return search_info
+
+def nsc_search(arr1,arr2):
+    conn = sqlite3.connect("student2.db")
+    cur_obj = conn.cursor()
+    cur_obj.execute("SELECT * "
+                    "FROM nsc "
+                    "WHERE sno = ? AND tag = ?",
+                    (arr1, arr2))
+    search_info = cur_obj.fetchall()
+    cur_obj.close()
+    conn.close()
+    return search_info
+
