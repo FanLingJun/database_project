@@ -2,28 +2,14 @@ import sqlite3
 import tkinter as tk
 from tkinter import messagebox
 import database_crud as op
-import test as stu
-import os
+import w_select_course as stu
+import w_teacher_manage as tea
 
-#！！！整体需改成函数，在主函数中调用！！！
-'''
-conn = sqlite3.connect('student2.db')#若文件不存在，会自动在当前目录创建
-cursor = conn.cursor()#创建一个cursor
-'''
 
 #系统登录
 w1=tk.Tk()
 w1.title('系统登录')
 w1.geometry('400x300')
-
-'''
-#系统登录界面带图片
-canvas = tk.Canvas(window, width=400, height=135, bg='green')
-image_file = tk.PhotoImage(file='pic.gif')
-image = canvas.create_image(200, 0, anchor='n', image=image_file)
-canvas.pack(side='top')
-tk.Label(window, text='Wellcome', font=('Arial', 16)).pack()
-'''
 
 #用户名/口令提示
 tk.Label(w1, text='用户名:', font=('黑体', 14)).place(x=10, y=100)
@@ -51,8 +37,8 @@ def usr_login():
     usr_name=usr_name.lower()
     usr_pwd=usr_pwd.lower()
     if usr_name=='system' and usr_pwd=='system':
-        #stu.student_select_course()  #！！！要改成转到成绩管理窗口！！！
-        print('teacher!')
+        w1.destroy()
+        tea.teacher_manage()
     else:
         temp=op.get_all('s')
         logn_list=[x[5] for x in temp]
@@ -71,8 +57,8 @@ def usr_login():
             messagebox.showwarning('警告！' ,'密码名错！')
             var_usr_pwd.set('')
         else:
+            w1.destroy()
             stu.student_select_course(usr_name)
-            #！！！系统界面消失！！！
 
 #登录/退出按钮
 btn_login = tk.Button(w1, text='登录', font=('黑体', 14), command=usr_login, width=7)
@@ -81,5 +67,3 @@ btn_sign_up = tk.Button(w1, text='退出', font=('黑体', 14) ,width=7)
 btn_sign_up.place(x=200, y=200)
 
 w1.mainloop()
-
-###待美化界面

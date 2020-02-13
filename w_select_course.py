@@ -4,6 +4,7 @@ from tkinter import scrolledtext
 from tkinter import Spinbox
 import database_crud as op
 import threading
+import w_teacher_manage as tea
 
 
 
@@ -12,7 +13,6 @@ def student_info(t1,usr_name):
     temp = op.search(table_name='s', arr6=usr_name)
     temp = temp[0]
     print('学生详细信息：',temp)
-    #return temp
     t1.insert('end', ' 学号  姓名  年龄  性别   所在系 \n')
     t1.insert('end', ' ' + temp[0] + '  ' + temp[1] + '  ' + temp[2] + '  ' + temp[3] + '  ' + temp[4] + '\n')
 
@@ -139,6 +139,10 @@ def student_select_course(usr_name):
     t2 = create_text(w2, 35, 8, 320, 50)
     t3 = create_text(w2, 40, 10, 10, 205)
     t4 = create_text(w2, 45, 10, 320, 205)
+
+    def change_window(event):
+        tea.teacher_manage()
+    t3.bind('<Button-1>', change_window)#改成跳转到成绩分布
 
     # 选课按钮(课号输入框置空报错)
     def choose_course(usr_name):
