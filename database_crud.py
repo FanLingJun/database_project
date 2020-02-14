@@ -13,7 +13,7 @@ def insert(table_name, insert_arr):
     if table_name == 's':
         # (sno, sname, sex, age, sdept, logn, pswd)
         cur_obj.execute("INSERT INTO s "
-                        "VALUES (?, ?, ?, ?, ?, ?, ?, 0)", (insert_arr[0], insert_arr[1], insert_arr[2], insert_arr[3], insert_arr[4], insert_arr[5], insert_arr[6]))
+                        "VALUES (?, ?, ?, ?, ?, ?, ?)", (insert_arr[0], insert_arr[1], insert_arr[2], insert_arr[3], insert_arr[4], insert_arr[5], insert_arr[6]))
     elif table_name == 'c':
         # (cno, cname, credit, cdept,tname)
         cur_obj.execute("INSERT INTO c "

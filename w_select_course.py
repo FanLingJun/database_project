@@ -4,7 +4,7 @@ from tkinter import scrolledtext
 from tkinter import Spinbox
 import database_crud as op
 import threading
-import w_teacher_manage as tea
+import w_select_student_score_report as score
 
 
 
@@ -140,11 +140,12 @@ def student_select_course(usr_name):
     t3 = create_text(w2, 40, 10, 10, 205)
     t4 = create_text(w2, 45, 10, 320, 205)
 
-    def change_window(event):
-        tea.teacher_manage()
-    t3.bind('<Button-1>', change_window)#改成跳转到成绩分布
+    #def change_window(usr_name):
+     #   score.select_student_score(usr_name)
+    #t3.bind('<Button-1>', change_window(usr_name))#改成跳转到成绩分布
 
-    # 选课按钮(课号输入框置空报错)
+
+    #选课按钮(课号输入框置空报错)
     def choose_course(usr_name):
         choose_cno = course_number.get()
         temp_list = [sno, choose_cno, 1]
