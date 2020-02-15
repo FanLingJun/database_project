@@ -5,8 +5,8 @@ from tkinter import scrolledtext
 from tkinter import ttk
 import database_crud
 
-conn = sqlite3.connect('student2.db')#若文件不存在，会自动在当前目录创建
-cursor = conn.cursor()#创建一个cursor
+# conn = sqlite3.connect('student2.db')#若文件不存在，会自动在当前目录创建
+# cursor = conn.cursor()#创建一个cursor
 
 def student_info_maintain():
     w = tk.Tk()
