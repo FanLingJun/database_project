@@ -7,12 +7,16 @@ import database_crud
 
 
 def course_info_maintain():
+    global w
     w = tk.Tk()
     w.title('课程信息维护窗口')
     w.geometry('600x400')
     frame_top = tk.Frame(width=600, height=90)
     frame_center = tk.Frame(width=600, height=200)
-    lb_tip = tk.Label(w, text='记录总数', font=('黑体', 14)).place(x=240, y=25)
+    lb_tip = tk.Label(w, text='记录总数', font=('黑体', 14)).place(x=200, y=25)
+    num = tk.StringVar()
+    lb_num = tk.Label(w, textvariable=num, font=('黑体', 14)).place(x=300, y=25)
+    num.set(get_count())
     global tree
     tree = ttk.Treeview(frame_center, show="headings", height=8, columns=("a", "b", "c", "d","e"))
     vbar = ttk.Scrollbar(frame_center, orient=tk.VERTICAL, command=tree.yview)
@@ -34,12 +38,12 @@ def course_info_maintain():
     tree.heading("e", text="任课教师")
     # 调用方法获取表格内容插入及树基本属性设置
 
-    for i in range(20):
-        tree.insert('', i, values=[str(i)] * 7)
+    # for i in range(20):
+        # tree.insert('', i, values=[str(i)] * 7)
 
     # course_info = course_info_get()
     course_info = database_crud.get_all('c')
-    i = 21
+    i = 0
     for course in course_info:
         tree.insert('', i, values=(course[0],course[1],course[2],course[3],course[4]))
         i += 1
@@ -74,6 +78,15 @@ def delButton(tree):
     x = tree.get_children()
     for item in x:
         tree.delete(item)
+
+def get_count():
+    conn = sqlite3.connect("student2.db")
+    cur_obj = conn.cursor()
+    cur_obj.execute("SELECT COUNT(*) FROM c")
+    search_info = cur_obj.fetchall()
+    cur_obj.close()
+    conn.close()
+    return search_info
 
 def add_info():
     root = tk.Tk()
@@ -124,6 +137,11 @@ def add_info():
     theButton2.grid(row=6, column=1, sticky=tk.E, padx=10, pady=5)
 
 def save_info(tree):
+
+    num = tk.StringVar()
+    lb_num = tk.Label(w, textvariable=num, font=('黑体', 14)).place(x=300, y=25)
+    num.set(get_count())
+
     # 首先，先清除表的内容，然后再获取更新
     x = tree.get_children()
     for item in x:
