@@ -5,6 +5,8 @@ import database_crud as op
 import w_select_course as stu
 import w_teacher_manage as tea
 
+conn = sqlite3.connect('student2.db')#若文件不存在，会自动在当前目录创建
+cursor = conn.cursor()#创建一个cursor
 
 #系统登录
 w1=tk.Tk()
@@ -25,7 +27,6 @@ var_usr_pwd.set('')
 entry_usr_pwd = tk.Entry(w1, textvariable=var_usr_pwd, font=('Arial', 14), show='*')
 entry_usr_pwd.place(x=120, y=140)
 
-
 #用户登录
 def usr_login():
     usr_name = var_usr_name.get()
@@ -40,25 +41,24 @@ def usr_login():
         w1.destroy()
         tea.teacher_manage()
     else:
-        temp=op.get_all('s')
-        logn_list=[x[5] for x in temp]
-        temp=op.search(table_name='s',arr6=usr_name)
-        temp=temp[0]
-        temp=[x for x in temp]
-        print(type(temp))
-        pswd=temp[6]
-        print(logn_list)
-        print(pswd)
+        cursor.execute('select logn from s')
+        temp = cursor.fetchall()
+        logn_list=[x[0] for x in temp]
         if usr_name not in logn_list:
-            messagebox.showwarning('警告！' ,'用户名错！')
+            messagebox.showwarning('警告！', '用户名错误！')
             var_usr_pwd.set('')
             var_usr_name.set('')
-        elif usr_pwd != pswd:
-            messagebox.showwarning('警告！' ,'密码名错！')
-            var_usr_pwd.set('')
         else:
-            w1.destroy()
-            stu.student_select_course(usr_name)
+            cursor.execute('select pswd from s where logn=?',(usr_name,))
+            temp=cursor.fetchall()
+            temp=temp[0]
+            pswd=temp[0]
+            if usr_pwd != pswd:
+                messagebox.showwarning('警告！', '密码错误！')
+                var_usr_pwd.set('')
+            else:
+                w1.destroy()
+                stu.student_select_course(usr_name)
 
 #登录/退出按钮
 btn_login = tk.Button(w1, text='登录', font=('黑体', 14), command=usr_login, width=7)
