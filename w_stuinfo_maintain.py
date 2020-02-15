@@ -9,12 +9,16 @@ import database_crud
 # cursor = conn.cursor()#创建一个cursor
 
 def student_info_maintain():
+    global w
     w = tk.Tk()
     w.title('学生信息维护窗口')
     w.geometry('600x400')
     frame_top = tk.Frame(width=600, height=90)
     frame_center = tk.Frame(width=600, height=200)
-    lb_tip = tk.Label(w, text='记录总数', font=('黑体', 14)).place(x=240, y=25)
+    lb_tip = tk.Label(w, text='记录总数', font=('黑体', 14)).place(x=200, y=25)
+    num = tk.StringVar()
+    lb_num = tk.Label(w, textvariable=num, font=('黑体', 14)).place(x=300, y=25)
+    num.set(get_count())
 
     tree = ttk.Treeview(frame_center, show="headings", height=8, columns=("a", "b", "c", "d","e","f","g"))
     vbar = ttk.Scrollbar(frame_center, orient=tk.VERTICAL, command=tree.yview)
@@ -40,11 +44,11 @@ def student_info_maintain():
     tree.heading("g", text="密码")
     # 调用方法获取表格内容插入及树基本属性设置
 
-    for i in range(20):
-        tree.insert('', i, values=[str(i)] * 7)
+    # for i in range(20):
+        # tree.insert('', i, values=[str(i)] * 7)
 
     stu_info = database_crud.get_all('s')
-    i = 21
+    i = 0
     for student in stu_info:
         tree.insert('', i, values=(student[0],student[1],student[2],student[3],student[4],student[5],student[6]))
         i += 1
@@ -74,6 +78,14 @@ def student_info_maintain():
 
     tk.mainloop()
 
+def get_count():
+    conn = sqlite3.connect("student2.db")
+    cur_obj = conn.cursor()
+    cur_obj.execute("SELECT COUNT(*) FROM s")
+    search_info = cur_obj.fetchall()
+    cur_obj.close()
+    conn.close()
+    return search_info
 
 def helloCallBack():
     messagebox.showinfo("Now you can see me")
@@ -99,12 +111,16 @@ def add_info():
     tk.Label(root, text="性别：").grid(row=2, column=0)
     tk.Label(root, text="年龄：").grid(row=3, column=0)
     tk.Label(root, text="所在系：").grid(row=4, column=0)
+    tk.Label(root, text="账户：").grid(row=5, column=0)
+    tk.Label(root, text="密码：").grid(row=6, column=0)
 
     e1 = tk.Entry(root)
     e2 = tk.Entry(root)
     e3 = tk.Entry(root)
     e4 = tk.Entry(root)
     e5 = tk.Entry(root)
+    e6 = tk.Entry(root)
+    e7 = tk.Entry(root)
 
     # 设置输入框的位置
     e1.grid(row=0, column=1)
@@ -112,10 +128,12 @@ def add_info():
     e3.grid(row=2, column=1)
     e4.grid(row=3, column=1)
     e5.grid(row=4, column=1)
+    e6.grid(row=5, column=1)
+    e7.grid(row=6, column=1)
 
     # 输入内容获取函数print打印
     def show():
-        info = [e1.get(), e2.get(), e3.get(), e4.get(), e5.get(),'null','null']
+        info = [e1.get(), e2.get(), e3.get(), e4.get(), e5.get(),e6.get(),e7.get()]
         print(e1.get())
         print(e2.get())
         print(info)
@@ -129,16 +147,23 @@ def add_info():
         e3.delete(0, tk.END)
         e4.delete(0, tk.END)
         e5.delete(0, tk.END)
+        e6.delete(0, tk.END)
+        e7.delete(0, tk.END)
 
     # 设置两个按钮，点击按钮执行命令 command= 命令函数
     theButton1 = tk.Button(root, text="确定", width=10, command=show)
     theButton2 = tk.Button(root, text="清除", width=10, command=dele)
 
     # 设置按钮的位置行列及大小
-    theButton1.grid(row=6, column=0, sticky=tk.W, padx=10, pady=5)
-    theButton2.grid(row=6, column=1, sticky=tk.E, padx=10, pady=5)
+    theButton1.grid(row=8, column=0, sticky=tk.W, padx=10, pady=5)
+    theButton2.grid(row=8, column=1, sticky=tk.E, padx=10, pady=5)
 
 def save_info(tree):
+
+    num = tk.StringVar()
+    lb_num = tk.Label(w, textvariable=num, font=('黑体', 14)).place(x=300, y=25)
+    num.set(get_count())
+
     # 首先，先清除表的内容，然后再获取更新
     x = tree.get_children()
     for item in x:
