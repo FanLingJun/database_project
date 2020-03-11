@@ -1,3 +1,4 @@
+#学生选课主窗口
 import sqlite3
 import tkinter as tk
 from tkinter import messagebox
@@ -5,15 +6,6 @@ import w_select_student_score_report as score
 
 conn = sqlite3.connect('student2.db')#若文件不存在，会自动在当前目录创建
 cursor = conn.cursor()#创建一个cursor
-
-#学生详细信息
-def student_info(t1,usr_name):
-    cursor.execute('select * from s where logn=?',(usr_name,))
-    temp = cursor.fetchall()
-    temp = temp[0]
-    print('学生详细信息：',temp)
-    t1.insert('end', ' 学号  姓名  年龄  性别   所在系 \n')
-    t1.insert('end', ' ' + temp[0] + '  ' + temp[1] + '  ' + temp[2] + '  ' + temp[3] + '  ' + temp[4] + '\n')
 
 # 根据用户名获取学生学号
 def get_sno(usr_name):
@@ -23,6 +15,16 @@ def get_sno(usr_name):
     sno = temp[0]
     print('sno:',sno)
     return sno
+
+#学生详细信息
+def student_info(t1,usr_name):
+    sno = get_sno(usr_name)
+    cursor.execute('select * from s where sno=?',(sno,))
+    temp = cursor.fetchall()
+    temp = temp[0]
+    print('学生详细信息：',temp)
+    t1.insert('end', ' 学号  姓名  年龄  性别   所在系 \n')
+    t1.insert('end', ' ' + temp[0] + '  ' + temp[1] + '  ' + temp[2] + '  ' + temp[3] + '  ' + temp[4] + '\n')
 
 #返回已修课程的课程号，课程名，成绩
 def selected_course(usr_name):
@@ -50,7 +52,7 @@ def selected_course_t3(t3,usr_name):
         t3.insert('end', cno_list[i] + '  ' + cname_list[i] + '  ' + str(grade_list[i]) + '\n')
 
 
-#将可选课程插入表nsc中（重复插入数据会报错！每个学生未选课情况只需插入一次 有点小问题）
+#将可选课程插入表nsc中
 #全部课程除去已修课程，即为可选课程
 def insert_table_nsc(usr_name):
     sno = get_sno(usr_name)
@@ -119,6 +121,7 @@ def choosed_course(t4,usr_name):
         t4.insert('end', temp[0] + '  ' + temp[1] + '  ' + str(temp[2]) + '  ' + temp[3] + '  ' + temp[4] + '\n')
     #return choosed_course_info
 
+#创建文本框
 def create_text(win, w, h, p_x, p_y):
     t = tk.Text(win,width=w,height=h, wrap='none')
     t.propagate(False)
@@ -132,8 +135,9 @@ def create_text(win, w, h, p_x, p_y):
     s2.config(command=t.xview)
     return t
 
+#学生选课主窗口
 def student_select_course(usr_name):
-    sno=get_sno(usr_name)
+    sno = get_sno(usr_name)
     w2 = tk.Tk()
     w2.title('学生选课')
     w2.geometry('850x400')
@@ -145,21 +149,22 @@ def student_select_course(usr_name):
 
     t1 = create_text(w2, 40, 8, 10, 50)
     t2 = create_text(w2, 35, 8, 320, 50)
-    t3 = create_text(w2, 40, 10, 10, 205)
+    t3 = create_text(w2, 40, 10, 10, 205)  #已修课程成绩小窗口
     t4 = create_text(w2, 45, 10, 320, 205)
 
+    #学生成绩单跳转
     def handler(event, usr_name):
         score.select_student_score(usr_name)
     def handler_adaptor(fun, **kwds):
         return lambda event, fun=fun, kwds=kwds:fun(event, **kwds)
-    t3.bind('<Button-1>',handler_adaptor(handler, usr_name=usr_name))
+    t3.bind('<Button-1>',handler_adaptor(handler, usr_name=usr_name))  #控件绑定函数
 
     course_number = tk.StringVar()
     course_number.set('')
     course_number = tk.Entry(w2, textvariable=course_number, font=('Arial', 14), width=7)
     course_number.place(x=625, y=80)
 
-    #选课按钮(课号输入框置空报错)
+    #选课按钮
     def choose_course(usr_name):
         choose_cno = course_number.get()
         cursor.execute('select cno from nsc where sno=? and tag=?', (sno,0))

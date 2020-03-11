@@ -33,7 +33,7 @@ class FForm:
         plt.rc('font', family='SimHei', weight='bold')
         plt.rcParams['axes.unicode_minus'] = False
         # 数组反转
-        cname_list.reverse()
+        #cname_list.reverse()
 
         '''#随机生成颜色
         def randomcolor():
@@ -75,8 +75,8 @@ class FForm:
         self.canvas.draw()  # 以前的版本使用show()方法，matplotlib 2.2之后不再推荐show（）用draw代替，但是用show不会报错，会显示警告
         self.canvas.get_tk_widget().pack(side=tk.TOP, fill=tk.BOTH, expand=1)
         # 把matplotlib绘制图形的导航工具栏显示到tkinter窗口上
-        toolbar = NavigationToolbar2Tk(self.canvas,self.root)  # matplotlib 2.2版本之后推荐使用NavigationToolbar2Tk，若使用NavigationToolbar2TkAgg会警告
-        toolbar.update()
+        #toolbar = NavigationToolbar2Tk(self.canvas,self.root)  # matplotlib 2.2版本之后推荐使用NavigationToolbar2Tk，若使用NavigationToolbar2TkAgg会警告
+        #toolbar.update()
         self.canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=1)
 
 if __name__ == "__main__":

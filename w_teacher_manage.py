@@ -1,4 +1,4 @@
-'''成绩管理'''
+#成绩管理主窗口
 import tkinter as tk
 from tkinter import ttk
 from tkinter import scrolledtext
@@ -8,13 +8,12 @@ import database_crud
 import w_stuinfo_maintain as m1
 import w_courinfo_maintain as m2
 import w_course_score_dis as s1
+
 #成绩管理主界面
 def teacher_manage():
-
  w4 = tk.Tk()
  w4.title('成绩管理')
  w4.geometry('800x400')
-
  # 维护的下拉框
  def goto_w_create_stu():  # 跳转至学生表
   w4.destroy()
@@ -42,7 +41,7 @@ def teacher_manage():
 
  w4.config(menu=menubar)  # 配置menubar成为 w4 的 menu。否则，GUI 中不会显示任何菜单栏
 
- #选择课程
+ #下拉框选择课程
  comvalue = tk.StringVar()  # 窗体自带的文本，新建一个值
  comboxlist = ttk.Combobox(w4, textvariable=comvalue)  # 初始化
  conn = sqlite3.connect('student2.db')  # 若文件不存在，会自动在当前目录创建
@@ -99,14 +98,14 @@ def teacher_manage():
 
   t4.delete(1.0,END)  #清空原先内容
   t4.insert('end', ' 学号          成绩\n')
-  values=selected_course(temp)
+  values=selected_course(temp) #selected_course()函数返回已选修该课程的学生学号，成绩
   sno_list = values[0]
   grade_list = values[1]
   for i in range(len(sno_list)):
    t4.insert('end', sno_list[i] + '            ' + str(grade_list[i])+'\n')
 
  #输入成绩
- def inputt():
+ def in_put():
   #使查询 成绩分布 退出 按钮无效
   if btn_query['state'] == 'normal':
    btn_query['state'] = 'disabled'
@@ -148,8 +147,8 @@ def teacher_manage():
    cno = cursor.fetchall()
    temp = cno[0]  # 转换数据类型作用，数据类型已转换为元组
    cno = temp[0]  # 数据类型转换为str
-   info = [e1.get(),cno, e2.get(),e1.get(),cno]
-   database_crud.update('sc', info)
+   cursor.execute('update sc set sno=?, cno=?, grade=? where sno=? and cno=?', (e1.get(),cno, e2.get(),e1.get(),cno))
+   conn.commit()
 
    #修改消息框中成绩
    t4.delete(1.0, END)  # 清空原先内容
@@ -173,11 +172,10 @@ def teacher_manage():
   theButton2.grid(row=6, column=1, sticky=tk.E, padx=10, pady=5)
 
  def goto_w_dis():
-  w4.destroy()
   s1.FForm()
  btn_query = tk.Button(w4, text='查询', width=7,command=query)
  btn_query.place(x=700, y=80)
- btn_input = tk.Button(w4, text='输入成绩', width=7,command=inputt)
+ btn_input = tk.Button(w4, text='输入成绩', width=7,command=in_put)
  btn_input.place(x=700, y=160)
  btn_grade_distribution = tk.Button(w4, text='成绩分布', width=7,command=goto_w_dis)
  btn_grade_distribution.place(x=700, y=240)

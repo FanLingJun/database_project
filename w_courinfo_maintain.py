@@ -1,3 +1,4 @@
+#课程信息维护窗口
 import sqlite3
 import tkinter as tk
 from tkinter import messagebox
@@ -5,7 +6,7 @@ from tkinter import scrolledtext
 from tkinter import ttk
 import database_crud
 
-
+#课程信息维护主窗口
 def course_info_maintain():
     global w
     w = tk.Tk()
@@ -79,6 +80,7 @@ def delButton(tree):
     for item in x:
         tree.delete(item)
 
+#获取记录总数
 def get_count():
     conn = sqlite3.connect("student2.db")
     cur_obj = conn.cursor()
@@ -88,6 +90,7 @@ def get_count():
     conn.close()
     return search_info
 
+#新增功能
 def add_info():
     root = tk.Tk()
     root.title("增加课程信息")
@@ -136,22 +139,7 @@ def add_info():
     theButton1.grid(row=6, column=0, sticky=tk.W, padx=10, pady=5)
     theButton2.grid(row=6, column=1, sticky=tk.E, padx=10, pady=5)
 
-def save_info(tree):
-
-    num = tk.StringVar()
-    lb_num = tk.Label(w, textvariable=num, font=('黑体', 14)).place(x=300, y=25)
-    num.set(get_count())
-
-    # 首先，先清除表的内容，然后再获取更新
-    x = tree.get_children()
-    for item in x:
-        tree.delete(item)
-    course_info = database_crud.get_all('c')
-    i = 0
-    for course in course_info:
-        tree.insert('', i, values=(course[0], course[1], course[2], course[3], course[4]))
-        i += 1
-
+#删除功能
 def delete_info():
     root = tk.Tk()
     root.title("删除课程信息")
@@ -183,34 +171,22 @@ def delete_info():
     theButton1.grid(row=2, column=0, sticky=tk.W, padx=10, pady=5)
     theButton2.grid(row=2, column=1, sticky=tk.E, padx=10, pady=5)
 
-def test_insert_to_database():
+#保存功能
+def save_info(tree):
 
-    insert_to_s = ['1044', '陈序原', '男', '20', '通信与信息工程', 's6', 's6']
-    database_crud.insert('s',insert_to_s)
+    num = tk.StringVar()
+    lb_num = tk.Label(w, textvariable=num, font=('黑体', 14)).place(x=300, y=25)
+    num.set(get_count())
 
-    insert_to_c = ['3097', '概率论与数理统计', 4, '数学', '毛雪峰']
-    database_crud.insert('c', insert_to_c)
-
-    insert_to_sc = ['1044', '3097', 85]
-    database_crud.insert('sc', insert_to_sc)
-
-def test_updata_database():
-
-    insert_to_s = ['1044', '陈序原', '男', '21', '智能科学与技术', 's6', 's6']
-    database_crud.update('s',insert_to_s)
-
-    insert_to_c = ['3097', '概率论与数理统计', 4, '数学', '何幼桦']
-    database_crud.update('c', insert_to_c)
-
-    insert_to_sc = ['1044', '3097', 99]
-    database_crud.update('sc', insert_to_sc)
-
-def test_search_database():
-    print(database_crud.search('s','1044'))
-    print(database_crud.search('s','','','男'))
+    # 首先，先清除表的内容，然后再获取更新
+    x = tree.get_children()
+    for item in x:
+        tree.delete(item)
+    course_info = database_crud.get_all('c')
+    i = 0
+    for course in course_info:
+        tree.insert('', i, values=(course[0], course[1], course[2], course[3], course[4]))
+        i += 1
 
 if __name__ == '__main__':
-    # test_search_database()
-    # test_updata_database()
-    #test_insert_to_database()
     course_info_maintain()
