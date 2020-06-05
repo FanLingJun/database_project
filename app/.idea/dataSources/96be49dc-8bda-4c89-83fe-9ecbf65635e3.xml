@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="management.db">
+  <database-model serializer="dbm" rdbms="SQLITE" format-version="4.11">
+    <root id="1">
+      <ServerVersion>3.25.1</ServerVersion>
+    </root>
+    <schema id="2" parent="1" name="main">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <collation id="3" parent="1" name="BINARY"/>
+    <collation id="4" parent="1" name="NOCASE"/>
+    <collation id="5" parent="1" name="RTRIM"/>
+    <table id="6" parent="2" name="c"/>
+    <table id="7" parent="2" name="nsc"/>
+    <table id="8" parent="2" name="s"/>
+    <table id="9" parent="2" name="sc"/>
+    <table id="10" parent="2" name="sqlite_master">
+      <System>1</System>
+    </table>
+    <table id="11" parent="2" name="t"/>
+    <column id="12" parent="6" name="cno">
+      <Position>1</Position>
+      <DataType>char(4)|0s</DataType>
+    </column>
+    <column id="13" parent="6" name="cname">
+      <Position>2</Position>
+      <DataType>char(20)|0s</DataType>
+    </column>
+    <column id="14" parent="6" name="credit">
+      <Position>3</Position>
+      <DataType>integer|0s</DataType>
+    </column>
+    <column id="15" parent="6" name="cdept">
+      <Position>4</Position>
+      <DataType>char(10)|0s</DataType>
+    </column>
+    <column id="16" parent="6" name="tname">
+      <Position>5</Position>
+      <DataType>char(8)|0s</DataType>
+    </column>
+    <index id="17" parent="6" name="sqlite_autoindex_c_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>cno</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="18" parent="6">
+      <ColNames>cno</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_c_1</UnderlyingIndexName>
+    </key>
+    <column id="19" parent="7" name="sno">
+      <Position>1</Position>
+      <DataType>char(4)|0s</DataType>
+    </column>
+    <column id="20" parent="7" name="cno">
+      <Position>2</Position>
+      <DataType>char(4)|0s</DataType>
+    </column>
+    <column id="21" parent="7" name="tag">
+      <Position>3</Position>
+      <DataType>integer|0s</DataType>
+    </column>
+    <index id="22" parent="7" name="sqlite_autoindex_nsc_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>sno
+cno</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="23" parent="7">
+      <ColNames>sno
+cno</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_nsc_1</UnderlyingIndexName>
+    </key>
+    <foreign-key id="24" parent="7">
+      <ColNames>sno</ColNames>
+      <RefTableName>s</RefTableName>
+      <RefColNames>sno</RefColNames>
+    </foreign-key>
+    <foreign-key id="25" parent="7">
+      <ColNames>cno</ColNames>
+      <RefTableName>c</RefTableName>
+      <RefColNames>cno</RefColNames>
+    </foreign-key>
+    <column id="26" parent="8" name="sno">
+      <Position>1</Position>
+      <DataType>char(4)|0s</DataType>
+    </column>
+    <column id="27" parent="8" name="sname">
+      <Position>2</Position>
+      <DataType>char(8)|0s</DataType>
+    </column>
+    <column id="28" parent="8" name="sex">
+      <Position>3</Position>
+      <DataType>char(2)|0s</DataType>
+    </column>
+    <column id="29" parent="8" name="age">
+      <Position>4</Position>
+      <DataType>char(2)|0s</DataType>
+    </column>
+    <column id="30" parent="8" name="sdept">
+      <Position>5</Position>
+      <DataType>char(10)|0s</DataType>
+    </column>
+    <column id="31" parent="8" name="logn">
+      <Position>6</Position>
+      <DataType>char(20)|0s</DataType>
+    </column>
+    <column id="32" parent="8" name="pswd">
+      <Position>7</Position>
+      <DataType>char(20)|0s</DataType>
+    </column>
+    <index id="33" parent="8" name="sqlite_autoindex_s_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>sno</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="34" parent="8">
+      <ColNames>sno</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_s_1</UnderlyingIndexName>
+    </key>
+    <column id="35" parent="9" name="sno">
+      <Position>1</Position>
+      <DataType>char(4)|0s</DataType>
+    </column>
+    <column id="36" parent="9" name="cno">
+      <Position>2</Position>
+      <DataType>char(4)|0s</DataType>
+    </column>
+    <column id="37" parent="9" name="grade">
+      <Position>3</Position>
+      <DataType>integer|0s</DataType>
+    </column>
+    <index id="38" parent="9" name="sqlite_autoindex_sc_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>sno
+cno</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="39" parent="9">
+      <ColNames>sno
+cno</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_sc_1</UnderlyingIndexName>
+    </key>
+    <foreign-key id="40" parent="9">
+      <ColNames>sno</ColNames>
+      <RefTableName>s</RefTableName>
+      <RefColNames>sno</RefColNames>
+    </foreign-key>
+    <foreign-key id="41" parent="9">
+      <ColNames>cno</ColNames>
+      <RefTableName>c</RefTableName>
+      <RefColNames>cno</RefColNames>
+    </foreign-key>
+    <column id="42" parent="10" name="type">
+      <Position>1</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="43" parent="10" name="name">
+      <Position>2</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="44" parent="10" name="tbl_name">
+      <Position>3</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="45" parent="10" name="rootpage">
+      <Position>4</Position>
+      <DataType>int|0s</DataType>
+    </column>
+    <column id="46" parent="10" name="sql">
+      <Position>5</Position>
+      <DataType>text|0s</DataType>
+    </column>
+    <column id="47" parent="11" name="tno">
+      <Position>1</Position>
+      <DataType>char(4)|0s</DataType>
+    </column>
+    <column id="48" parent="11" name="tname">
+      <Position>2</Position>
+      <DataType>char(8)|0s</DataType>
+    </column>
+    <column id="49" parent="11" name="sex">
+      <Position>3</Position>
+      <DataType>char(2)|0s</DataType>
+    </column>
+    <column id="50" parent="11" name="age">
+      <Position>4</Position>
+      <DataType>char(2)|0s</DataType>
+    </column>
+    <column id="51" parent="11" name="tdept">
+      <Position>5</Position>
+      <DataType>char(10)|0s</DataType>
+    </column>
+    <column id="52" parent="11" name="logn">
+      <Position>6</Position>
+      <DataType>char(20)|0s</DataType>
+    </column>
+    <column id="53" parent="11" name="pswd">
+      <Position>7</Position>
+      <DataType>char(20)|0s</DataType>
+    </column>
+    <index id="54" parent="11" name="sqlite_autoindex_t_1">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>tno</ColNames>
+      <ColumnCollations></ColumnCollations>
+      <Unique>1</Unique>
+    </index>
+    <key id="55" parent="11">
+      <ColNames>tno</ColNames>
+      <Primary>1</Primary>
+      <UnderlyingIndexName>sqlite_autoindex_t_1</UnderlyingIndexName>
+    </key>
+  </database-model>
+</dataSource>

@@ -1,14 +1,14 @@
 import sqlite3
 
 def connect():
-    conn = sqlite3.connect("student2.db")
+    conn = sqlite3.connect("management.db")
     cur_obj = conn.cursor()
     cur_obj.close()
     conn.commit()
     conn.close()
 
 def insert(table_name, insert_arr):
-    conn = sqlite3.connect("student2.db")
+    conn = sqlite3.connect("management.db")
     cur_obj = conn.cursor()
     if table_name == 's':
         # (sno, sname, sex, age, sdept, logn, pswd)
@@ -31,7 +31,7 @@ def insert(table_name, insert_arr):
     conn.close()
 
 def get_all(table_name):
-    conn = sqlite3.connect("student2.db")
+    conn = sqlite3.connect("management.db")
     cur_obj = conn.cursor()
     # 缺省查询报错，只能枚举
     if table_name == 's':
@@ -48,7 +48,7 @@ def get_all(table_name):
     return table
 
 def update(table_name,update_arr):
-    conn = sqlite3.connect("student2.db")
+    conn = sqlite3.connect("management.db")
     cur_obj = conn.cursor()
     if table_name == 's':
         # (sno, sname, sex, age, sdept, logn, pswd)
@@ -94,7 +94,7 @@ def update(table_name,update_arr):
     conn.close()
 
 def delete(table_name,num):
-    conn = sqlite3.connect("student2.db")
+    conn = sqlite3.connect("management.db")
     cur_obj = conn.cursor()
     if table_name == 's':
         cur_obj.execute("DELETE FROM s "
@@ -113,7 +113,7 @@ def delete(table_name,num):
     conn.close()
 
 def search(table_name,arr1="",arr2="",arr3="",arr4="",arr5="",arr6=""):
-    conn = sqlite3.connect("student2.db")
+    conn = sqlite3.connect("management.db")
     cur_obj = conn.cursor()
     if table_name == 's':
         # (sno, sname, sex, age, sdept, logn, pswd)
@@ -145,7 +145,7 @@ def search(table_name,arr1="",arr2="",arr3="",arr4="",arr5="",arr6=""):
     return search_info
 
 def nsc_search(arr1,arr2):
-    conn = sqlite3.connect("student2.db")
+    conn = sqlite3.connect("management.db")
     cur_obj = conn.cursor()
     cur_obj.execute("SELECT * "
                     "FROM nsc "

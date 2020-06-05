@@ -1,7 +1,7 @@
 #创建数据库
 import sqlite3
 
-conn = sqlite3.connect('student2.db')#若文件不存在，会自动在当前目录创建
+conn = sqlite3.connect('management.db')#若文件不存在，会自动在当前目录创建
 cursor = conn.cursor()#创建一个cursor
 
 # 执行一条SQL语句，创建学生表s表:
@@ -39,6 +39,15 @@ cursor.execute('insert into sc values (\'1004\', \'0831\', 97)')
 #创建未学习表nsc表(记录每位同学未学习的课程，即全部课程除去已修课程)
 cursor.execute('create table nsc(sno char(4) references s(sno),'
                'cno char(4) references c(cno), tag integer, primary key(sno,cno))')
+
+# 创建教师表t表:
+cursor.execute('create table t (tno char(4) primary key, tname char(8),'
+               'sex char(2), age char(2), tdept char(10), logn char(20), pswd char(20))')
+#插入数据
+cursor.execute('insert into t values (\'3001\', \'张老师\', \'男\', \'39\', \'计算机\', \'t1\', \'password\')')
+cursor.execute('insert into t  values (\'3002\', \'李老师\', \'男\', \'42\', \'计算机\', \'t2\', \'password\')')
+cursor.execute('insert into t values (\'3003\', \'王老师\', \'女\', \'43\', \'数学\', \'t3\', \'password\')')
+cursor.execute('insert into t values (\'3004\', \'赵老师\', \'男\', \'45\', \'计算机\', \'t4\', \'password\')')
 
 cursor.close()
 conn.commit()
