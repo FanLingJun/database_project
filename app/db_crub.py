@@ -39,7 +39,12 @@ def insert(table_name, insert_arr):
         # (xq, kh, gh, sksj)
         cur_obj.execute("INSERT INTO o "
                         "VALUES (?, ?, ?, ?)", (insert_arr[0], insert_arr[1], insert_arr[2], insert_arr[3]))
-
+    elif table_name == 't':
+        # gh,xm,xb,csrq,xl,jbgz,yxh
+        cur_obj.execute("INSERT INTO t "
+                        "VALUES (?, ?, ?, ?, ?, ?, ?)", (
+                        insert_arr[0], insert_arr[1], insert_arr[2], insert_arr[3], insert_arr[4], insert_arr[5],
+                        insert_arr[6]))
     cur_obj.close()
     conn.commit()
     conn.close()
@@ -81,20 +86,63 @@ def update(table_name,update_arr):
                         "csrq = ?, "
                         "jg = ?, "
                         "sjhm = ?, "
-                        "yxh = ?,"
-                        "count = ?"
+                        "yxh = ?"
                         "WHERE xh = ?",
-                        (update_arr[0], update_arr[1], update_arr[2], update_arr[3], update_arr[4], update_arr[5], update_arr[6],update_arr[7],update_arr[0]))
+                        (update_arr[0], update_arr[1], update_arr[2], update_arr[3], update_arr[4], update_arr[5], update_arr[6],update_arr[0]))
     elif table_name == 'c':
-        # (cno, cname, credit, cdept,tname)
+        # (kh, km, xf, xs,yxh)
         cur_obj.execute("UPDATE c "
-                        "SET cno = ?, "
-                        "cname = ?, "
-                        "credit = ?, "
-                        "cdept = ?, "
-                        "tname = ? "
-                        "WHERE cno = ?",
+                        "SET kh = ?, "
+                        "km = ?, "
+                        "xf = ?, "
+                        "xs = ?, "
+                        "yxh = ? "
+                        "WHERE kh = ?",
                         (update_arr[0], update_arr[1], update_arr[2], update_arr[3], update_arr[4],update_arr[0]))
+    elif table_name == 'd':
+        # (yxh, mc, dz,lxdh)
+        cur_obj.execute("UPDATE d "
+                        "SET yxh = ?, "
+                        "mc = ?, "
+                        "dz = ?, "
+                        "lxdh = ?"
+                        "WHERE yxh = ?",
+                        (update_arr[0], update_arr[1], update_arr[2], update_arr[3], update_arr[0]))
+    elif table_name == 'e':
+        # (xh, xq, kh, gh, pscj, kscj, zpcj)
+        cur_obj.execute("UPDATE e "
+                        "SET xh = ?, "
+                        "xq = ?, "
+                        "kh = ?, "
+                        "gh = ?, "
+                        "pscj = ?, "
+                        "kscj = ?, "
+                        "zpcj = ?"
+                        "WHERE xh = ? and kh = ?",
+                        (update_arr[0], update_arr[1], update_arr[2], update_arr[3], update_arr[4], update_arr[5],
+                         update_arr[6], update_arr[0], update_arr[2]))
+    elif table_name == 'o':
+        # (xq, kh, gh, sksj)
+        cur_obj.execute("UPDATE o "
+                        "SET xq = ?, "
+                        "kh = ?, "
+                        "gh = ?, "
+                        "sksj = ? "
+                        "WHERE kh = ? and kh = ? and gh = ?",
+                        (update_arr[0], update_arr[1], update_arr[2], update_arr[3], update_arr[0], update_arr[1], update_arr[2]))
+    elif table_name == 't':
+        # gh,xm,xb,csrq,xl,jbgz,yxh
+        cur_obj.execute("UPDATE t "
+                        "SET gh = ?, "
+                        "xm = ?, "
+                        "xb = ?, "
+                        "csrq = ?, "
+                        "xl = ?, "
+                        "jbgz = ?, "
+                        "yxh = ?"
+                        "WHERE gh = ?",
+                        (update_arr[0], update_arr[1], update_arr[2], update_arr[3], update_arr[4], update_arr[5],
+                         update_arr[6], update_arr[0]))
     elif table_name == 'sc':
         # (sno, cno, grade)
         cur_obj.execute("UPDATE sc "
@@ -153,21 +201,45 @@ def delete(table_name,num):
     conn.commit()
     conn.close()
 
-def search(table_name,arr1="",arr2="",arr3="",arr4="",arr5="",arr6=""):
+def search(table_name,arr1="",arr2="",arr3="",arr4="",arr5="",arr6="",arr7=""):
     conn = sqlite3.connect("management.db")
     cur_obj = conn.cursor()
     if table_name == 's':
-        # (sno, sname, sex, age, sdept, logn, pswd)
+        # (xh, xm, xb, csrq, jg, sjhm, yxh)
         cur_obj.execute("SELECT * "
                         "FROM s "
-                        "WHERE sno = ? OR sname = ? OR sex = ? OR age = ? OR sdept = ? OR logn =?",
-                        (arr1, arr2, arr3, arr4, arr5,arr6))
+                        "WHERE xh = ? OR xm = ? OR xb = ? OR csrq = ? OR jg = ? OR sjhm =? or yxh = ?",
+                        (arr1, arr2, arr3, arr4, arr5,arr6,arr7))
     elif table_name == 'c':
-        # (cno, cname, credit, cdept,tname)
+        # (kh, km, xf, xs,yxh)
         cur_obj.execute("SELECT * "
                         "FROM c "
-                        "WHERE cno = ? OR cname = ? OR credit = ? OR cdept = ? or tname = ?",
+                        "WHERE kh = ? OR km = ? OR xf = ? OR xs = ? or yxh = ?",
                         (arr1, arr2, arr3, arr4, arr5))
+    elif table_name == 'd':
+        # (yxh, mc, dz,lxdh)
+        cur_obj.execute("SELECT * "
+                    "FROM d "
+                    "WHERE yxh = ? OR mc = ? OR dz = ? OR lxdh = ?",
+                    (arr1, arr2, arr3, arr4))
+    elif table_name == 'o':
+        # (xq, kh, gh, sksj)
+        cur_obj.execute("SELECT * "
+                    "FROM o "
+                    "WHERE xq = ? OR kh = ? OR gh = ? OR sksj = ?",
+                    (arr1, arr2, arr3, arr4))
+    elif table_name == 'e':
+        # (xh, xq, kh, gh, pscj, kscj, zpcj)
+        cur_obj.execute("SELECT * "
+                        "FROM e "
+                        "WHERE xh = ? OR xq = ? OR kh = ? OR gh = ? OR pscj = ? OR kscj =? or zpcj = ?",
+                        (arr1, arr2, arr3, arr4, arr5,arr6,arr7))
+    elif table_name == 't':
+        # gh,xm,xb,csrq,xl,jbgz,yxh
+        cur_obj.execute("SELECT * "
+                        "FROM t "
+                        "WHERE gh = ? OR xm = ? OR xb = ? OR csrq = ? OR xl = ? OR jbgz =? or yxh = ?",
+                        (arr1, arr2, arr3, arr4, arr5, arr6, arr7))
     elif table_name == 'sc':
         # (sno, cno, grade)
         cur_obj.execute("SELECT * "
