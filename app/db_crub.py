@@ -11,11 +11,11 @@ def insert(table_name, insert_arr):
     conn = sqlite3.connect("management.db")
     cur_obj = conn.cursor()
     if table_name == 's':
-        # (sno, sname, sex, age, sdept, logn, pswd)
+        # (xh, xm, xb, csrq, jg, sjhm, yxh)
         cur_obj.execute("INSERT INTO s "
                         "VALUES (?, ?, ?, ?, ?, ?, ?)", (insert_arr[0], insert_arr[1], insert_arr[2], insert_arr[3], insert_arr[4], insert_arr[5], insert_arr[6]))
     elif table_name == 'c':
-        # (cno, cname, credit, cdept,tname)
+        # (kh, km, xf, xs,yxh)
         cur_obj.execute("INSERT INTO c "
                         "VALUES (?, ?, ?, ?, ?)", (insert_arr[0], insert_arr[1], insert_arr[2], insert_arr[3],insert_arr[4]))
     elif table_name == 'sc':
@@ -26,6 +26,20 @@ def insert(table_name, insert_arr):
         # (sno, cno, tag)
         cur_obj.execute("INSERT INTO nsc "
                         "VALUES (?, ?, ?)", (insert_arr[0], insert_arr[1], insert_arr[2]))
+    elif table_name == 'd':
+        # (yxh, mc, dz,lxdh)
+        cur_obj.execute("INSERT INTO d "
+                        "VALUES (?, ?, ?, ?)", (insert_arr[0], insert_arr[1], insert_arr[2], insert_arr[3]))
+
+    elif table_name == 'e':
+        # (xh, xq, kh, gh, pscj, kscj, zpcj)
+        cur_obj.execute("INSERT INTO e "
+                        "VALUES (?, ?, ?, ?, ?, ?, ?)", (insert_arr[0], insert_arr[1], insert_arr[2], insert_arr[3], insert_arr[4], insert_arr[5],insert_arr[6]))
+    elif table_name == 'o':
+        # (xq, kh, gh, sksj)
+        cur_obj.execute("INSERT INTO o "
+                        "VALUES (?, ?, ?, ?)", (insert_arr[0], insert_arr[1], insert_arr[2], insert_arr[3]))
+
     cur_obj.close()
     conn.commit()
     conn.close()
@@ -42,6 +56,14 @@ def get_all(table_name):
         cur_obj.execute("SELECT * FROM sc")
     elif table_name == 'nsc':
         cur_obj.execute("SELECT * FROM nsc")
+    elif table_name == 'o':
+        cur_obj.execute("SELECT * FROM o")
+    elif table_name == 't':
+        cur_obj.execute("SELECT * FROM t")
+    elif table_name == 'e':
+        cur_obj.execute("SELECT * FROM e")
+    elif table_name == 'd':
+        cur_obj.execute("SELECT * FROM d")
     table = cur_obj.fetchall()
     cur_obj.close()
     conn.close()
@@ -51,17 +73,17 @@ def update(table_name,update_arr):
     conn = sqlite3.connect("management.db")
     cur_obj = conn.cursor()
     if table_name == 's':
-        # (sno, sname, sex, age, sdept, logn, pswd)
+        # (xh, xm, xb, csrq, jg, sjhm, yxh)
         cur_obj.execute("UPDATE s "
-                        "SET sno = ?, "
-                        "sname = ?, "
-                        "sex = ?, "
-                        "age = ?, "
-                        "sdept = ?, "
-                        "logn = ?, "
-                        "pswd = ?,"
+                        "SET xh = ?, "
+                        "xm = ?, "
+                        "xb = ?, "
+                        "csrq = ?, "
+                        "jg = ?, "
+                        "sjhm = ?, "
+                        "yxh = ?,"
                         "count = ?"
-                        "WHERE sno = ?",
+                        "WHERE xh = ?",
                         (update_arr[0], update_arr[1], update_arr[2], update_arr[3], update_arr[4], update_arr[5], update_arr[6],update_arr[7],update_arr[0]))
     elif table_name == 'c':
         # (cno, cname, credit, cdept,tname)
@@ -98,10 +120,29 @@ def delete(table_name,num):
     cur_obj = conn.cursor()
     if table_name == 's':
         cur_obj.execute("DELETE FROM s "
-                        "WHERE sno = ?", (num,))
+                        "WHERE xh = ?", (num,))
     elif table_name == 'c':
+        '''
         cur_obj.execute("DELETE FROM c "
                         "WHERE cno = ?", (num,))
+        '''
+    elif table_name == 'o':
+        '''
+        cur_obj.execute("DELETE FROM o "
+                        "WHERE kh = ? and gh = ?", (num,))
+        '''
+    elif table_name == 't':
+        cur_obj.execute("DELETE FROM t "
+                        "WHERE gh = ?", (num,))
+    elif table_name == 'e':
+        '''
+        cur_obj.execute("DELETE FROM o "
+                        "WHERE kh = ? and gh = ?", (num,))
+        '''
+    elif table_name == 'd':
+        cur_obj.execute("DELETE FROM d "
+                        "WHERE yxh = ?", (num,))
+
     elif table_name == 'sc':
         cur_obj.execute("DELETE FROM sc "
                         "WHERE sno = ?", (num,))
