@@ -1,5 +1,30 @@
-/* Write your styles */
+.center-session{
+    width: 100%;
+    max-width: 350px;
+    float: right;
+    padding: 30px;
+    text-align: center;
+    display: block;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 10px;
+    height: 220px;
+    margin-top: 15%;
+    margin-right: 35%;
+    font-size: 20px;
+}
+.navbar-default{
+    background: #FFFFFF;
+    height: 75px;
+}
 
+.navbar-brand{
+    padding-top: 25px;
+    padding-left: 40px;
+}
+
+.item-css{
+    padding-left: 10px;
+}
 html,
 body {
     background: #e9ecf3;
@@ -1968,3 +1993,4 @@ ul.tpl-dropdown-content li>a.tpl-dropdown-content-message:last-child {
         padding-left: 0;
     }
 }
+

@@ -39,7 +39,7 @@ def student_index():
 @app.route('/teacher_index', methods=['GET'])
 def teacher_index():
     return render_template('teacher_index.html')
-
+'''
 # 显示教师首页的函数，可以显示首页里的信息
 @app.route('/admin_index', methods=['GET'])
 def teacher_index():
@@ -188,6 +188,38 @@ def get_all_course():
         posts.append(dict_data)
     # print posts
     return render_template('admin.html', posts=posts)
+'''
+@app.route('/admin_student', methods=['GET'])
+def admin_student():
+    # 调用显示一个table所有数据的函数
+    # 这里是管理员看到的，虽然和学生看到的一样但是也要两个函数
+    data = dbs.get_all('s')
+    # 用列表的格式存放全部数据
+    # (xh, xm, xb, csrq, jg, sjhm, yxh)
+    posts = []
+    for value in data:
+        dict_data = {}
+        dict_data['xh'] = value[0]
+        dict_data['xm'] = value[1]
+        dict_data['xb'] = value[2]
+        dict_data['csrq'] = value[3]
+        dict_data['jg'] = value[4]
+        dict_data['sjhm'] = value[5]
+        dict_data['yxh'] = value[6]
+        posts.append(dict_data)
+    '''
+    posts = {
+        'xh':1010,
+        'xm':'张三',
+        'xb':'男',
+        'csrq':'2020-2-20'
+    }
+    '''
+    posts=posts[0]
+    print(posts)
+    return render_template('admin_student.html', posts=posts)
+
+
 # 主函数
 if __name__ == '__main__':
     app.debug = True
